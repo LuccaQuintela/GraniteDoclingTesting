@@ -1,6 +1,9 @@
 import logging
 from datetime import datetime
-from docling.document_converter import DocumentConverter
+from docling.datamodel.base_models import InputFormat
+from docling.document_converter import DocumentConverter, PdfFormatOption
+from docling.pipeline.vlm_pipeline import VlmPipeline
+from docling.datamodel.pipeline_options import PdfPipelineOptions, RapidOcrOptions, VlmPipelineOptions, smolvlm_picture_description
 from typing import Union, List
 from pathlib import Path
 
@@ -9,7 +12,7 @@ logs_dir.mkdir(exist_ok=True)
 log_file = logs_dir / f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler(log_file),
@@ -20,8 +23,40 @@ logger = logging.getLogger(__name__)
 
 class Engine:
     def __init__(self):
-        logger.info("Initializing Engine")
-        self.converter = DocumentConverter()
+        logger.info("Initializing Engine with VLM Pipeline")
+        logger.info("Using Granite-Docling-258M model for vision-based document conversion")
+
+        # pipeline_options = VlmPipelineOptions(
+        #     do_picture_description=True, 
+        # )
+
+        # self.converter = DocumentConverter(
+        #     format_options={
+        #         InputFormat.PDF: PdfFormatOption(
+        #             pipeline_cls=VlmPipeline,
+        #             pipeline_options=pipeline_options,
+        #         ),
+        #     }
+        # )
+
+        pipeline_options = PdfPipelineOptions(
+            generate_page_images=True,
+            images_scale=1.00,
+            do_ocr=True,
+            ocr_options=RapidOcrOptions(),
+            do_picture_description=True,
+            picture_description_options=smolvlm_picture_description,
+        )
+
+        self.converter = DocumentConverter(
+            format_options={
+                InputFormat.PDF: PdfFormatOption(
+                    # pipeline_cls=VlmPipeline,
+                    pipeline_options=pipeline_options,
+                ),
+            }
+        )
+
         self.results_dir = Path("results")
         self.results_dir.mkdir(exist_ok=True)
         self.data_dir = Path("data")

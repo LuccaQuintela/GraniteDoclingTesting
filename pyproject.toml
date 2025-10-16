@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "docling",
+    "onnxruntime-gpu>=1.23.0",
     "torch",
     "torchvision",
 ]
