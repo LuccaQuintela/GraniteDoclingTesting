@@ -7,8 +7,9 @@ __pycache__/
 *.so
 
 # Data and Results
-data/
+data/*
 results/
+logs/
 
 # Distribution / packaging
 .Python
