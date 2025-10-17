@@ -1,5 +1,3 @@
-from pathlib import Path
-from docling.document_converter import DocumentConverter
 from engine import Engine
 
 def main() -> None:

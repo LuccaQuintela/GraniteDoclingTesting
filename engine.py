@@ -4,8 +4,7 @@ import base64
 from datetime import datetime
 from docling.datamodel.base_models import InputFormat
 from docling.document_converter import DocumentConverter, PdfFormatOption
-from docling.pipeline.vlm_pipeline import VlmPipeline
-from docling.datamodel.pipeline_options import PdfPipelineOptions, RapidOcrOptions, VlmPipelineOptions, smolvlm_picture_description
+from docling.datamodel.pipeline_options import PdfPipelineOptions
 from typing import Union, List, Optional
 from pathlib import Path
 from openai import OpenAI
