@@ -95,9 +95,6 @@ class Engine:
             logger.info(f"Running post-processing for images...")
             markdown_output = self.post_processing(result, md_output_path)
 
-            logger.info(f"Exporting to HTML...")
-            html_output = result.document.export_to_html()
-
             logger.info(f"Writing markdown to: {md_output_path}")
             md_output_path.write_text(markdown_output, encoding="utf-8")
 
